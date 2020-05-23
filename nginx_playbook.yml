@@ -1,4 +1,3 @@
 - hosts: nginx.luxor.cloud
-  become: true
   roles:
-    - role: nginxinc.nginx
+  - role: nginxinc.nginx

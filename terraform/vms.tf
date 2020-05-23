@@ -15,7 +15,7 @@ resource "hcloud_server" "nexus" {
 
 
 resource "hcloud_server" "general-nginx" {
-  name        = "general-nginx"
+  name        = "nginx.luxor.cloud"
   image       = "debian-10"
   server_type = "cx11"
   datacenter  = "nbg1-dc3"
