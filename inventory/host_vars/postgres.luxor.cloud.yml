@@ -1,0 +1,15 @@
+postgresql_service_state: started
+postgresql_service_enabled: true
+postgres_users_no_log: false
+postgresql_hba_entries:
+  - { type: local, database: all, user: postgres, auth_method: trust }
+  - { type: host, database: lbwl, address: 0.0.0.0/0, user: lbwl, auth_method: password }
+postgresql_global_config_options:
+- option: listen_addresses
+  value: 0.0.0.0
+postgresql_databases:
+- name: lbwl
+  owner: lbwl
+postgresql_users:
+- name: lbwl
+  password: "{{ postgres_lbwl_user_passwd }}"
