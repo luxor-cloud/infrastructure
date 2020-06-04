@@ -9,9 +9,12 @@ nginx_http_template:
       nexus:
         listen:
           listen_localhost:
-            port: 80
-            ssl: false
+            port: 443
+            ssl: true
         server_name: repo.luxor.cloud
+        ssl:
+          cert: /etc/ssl/certs/cloudflare_origin.crt
+          key: /etc/ssl/private/cloudflare_origin.key
         reverse_proxy:
           locations:
             nexus_site:
@@ -21,5 +24,3 @@ nginx_http_template:
                 header_host:
                   name: Host
                   value: $host
-        
-                 

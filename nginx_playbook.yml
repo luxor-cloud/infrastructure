@@ -1,3 +1,13 @@
 - hosts: nginx.luxor.cloud
+  vars_files: vars/vault.yml
+  pre_tasks:
+  - name: install cert
+    copy:
+      content: "{{ cloudflare_origin_cert }}"
+      dest: /etc/ssl/certs/cloudflare_origin.crt
+  - name: install key
+    copy:
+      content: "{{ cloudflare_origin_key }}"
+      dest: /etc/ssl/private/cloudflare_origin.key
   roles:
   - role: nginxinc.nginx
