@@ -7,6 +7,7 @@ nexus_max_heap_size: "4G"
 nexus_max_direct_memory: "2G"
 nexus_delete_default_repos: true
 nexus_delete_default_blobstore: true
+nexus_config_docker: true
 nexus_blobstores:
 - name: docker-blobstore
   type: file
