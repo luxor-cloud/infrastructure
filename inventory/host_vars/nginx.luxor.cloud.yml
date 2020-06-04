@@ -17,5 +17,9 @@ nginx_http_template:
             nexus_site:
               location: /
               proxy_pass: http://159.69.20.113:8081
+              proxy_set_header:
+                header_host:
+                  name: Host
+                  value: $host
         
                  
