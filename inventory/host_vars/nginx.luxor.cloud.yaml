@@ -5,7 +5,7 @@ nginx_http_template:
     template_file: http/default.conf.j2
     conf_file_name: repo.luxor.cloud.conf
     conf_file_location: /etc/nginx/conf.d/
-    servers: 
+    servers:
       nexus:
         listen:
           listen_localhost:
@@ -17,7 +17,7 @@ nginx_http_template:
           key: /etc/ssl/private/cloudflare_origin.key
         reverse_proxy:
           locations:
-            nexus_site:
+            nexus:
               location: /
               proxy_pass: http://159.69.20.113:8081
               proxy_set_header:
