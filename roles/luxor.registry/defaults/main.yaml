@@ -1,2 +1,4 @@
 registry_version: 2
 registry_named_volume: registry_data
+registry_port: 443
+# registry_config:
