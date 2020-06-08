@@ -1,0 +1,5 @@
+- hosts: docker.luxor.cloud
+  #vars_files: vars/vault.yml
+  roles:
+    - role: geerlingguy.docker
+    - role: luxor.registry

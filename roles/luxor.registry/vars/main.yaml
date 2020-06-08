@@ -1,0 +1,2 @@
+__registry_config_dir_path: /etc/docker/registry
+__registry_config_file_path: "{{ __registry_config_dir_path }}/config.yml"

@@ -8,3 +8,5 @@ all:
       ansible_host: 94.130.172.196
     postgres.luxor.cloud:
       ansible_host: 78.47.14.50
+    docker.luxor.cloud:
+      ansible_host: 78.47.250.34

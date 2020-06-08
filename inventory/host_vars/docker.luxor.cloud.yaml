@@ -1,0 +1,5 @@
+registry_config:
+  version: 1.0
+  some_key:
+    hello: world
+  what: is love
