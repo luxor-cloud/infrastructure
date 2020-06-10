@@ -4,8 +4,10 @@ all:
   hosts:
     repo.luxor.cloud:
       ansible_host: 159.69.20.113
+      private_ipv4_address: 10.0.0.3
     nginx.luxor.cloud:
       ansible_host: 94.130.172.196
+      private_ipv4_address: 10.0.0.2
     postgres.luxor.cloud:
       ansible_host: 78.47.14.50
     docker.luxor.cloud:

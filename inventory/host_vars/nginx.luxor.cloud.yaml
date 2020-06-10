@@ -19,7 +19,7 @@ nginx_http_template:
           locations:
             nexus:
               location: /
-              proxy_pass: http://159.69.20.113:8081
+              proxy_pass: "http://{{ hostvars['repo.luxor.cloud'].private_ipv4_address }}:8081"
               proxy_set_header:
                 header_host:
                   name: Host

@@ -1,4 +1,5 @@
-banexus_config_docker: true
+nexus_config_docker: true
+nexus_application_host: "{{ hostvars['repo.luxor.cloud'].private_ipv4_address }}"
 nexus_timezone: Europe/Berlin
 nexus_admin_password: "{{ nexus_admin_passwd }}"
 nexus_anonymous_access: false

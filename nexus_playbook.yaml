@@ -1,5 +1,5 @@
 - hosts: repo.luxor.cloud
-  vars_files: vars/vault.yml
+  vars_files: vars/vault.yaml
   pre_tasks:
   - name: update apt
     apt:
