@@ -3,11 +3,14 @@
   apt:
     name: python3-pip
 
-- name: Install docker client
+- name: Install pip deps
   pip:
-    name: docker
+    name: 
+      - docker 
+      - passlib
+      - bcrypt
 
-- name: Get infos on container registry
+- name: "Get infos on container registry"
   docker_container_info:
     name: registry
   register: result
@@ -18,8 +21,36 @@
     state: stopped
   when: result.exists
 
+- name: Remove container
+  docker_container: 
+    name: registry
+    state: absent
+  when: result.exists
+
+- name: "Remove {{ registry_htpasswd_path }}"
+  file:
+    path: "{{ registry_htpasswd_path }}"
+    state: absent
+
+- name: "Generate {{ registry_htpasswd_path }}"
+  htpasswd:
+    path: "{{ registry_htpasswd_path }}"
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    create: yes
+    crypt_scheme: bcrypt
+  loop: "{{ registry_htpasswd_users }}"
+
 - name: "Ensures  {{ __registry_config_dir_path  }} exists"
   file: path="{{ __registry_config_dir_path }}" state=directory
+
+- name: Copy TLS certificate
+  copy: content="{{ registry_tls_cert }}" dest={{ registry_tls_cert_path }}
+  when: registry_tls_cert is defined
+
+- name: Copy TLS key
+  copy: content="{{ registry_tls_key }}" dest={{ registry_tls_key_path }}
+  when: registry_tls_key is defined
 
 - name: Write configuration
   copy: content="{{ registry_config | to_nice_yaml }}" dest={{ __registry_config_file_path }}
@@ -37,15 +68,16 @@
     volumes:
       - "{{ registry_named_volume }}:/var/lib/registry"
       - "{{ __registry_config_file_path }}:/etc/docker/registry/config.yml"
+      - "{{ registry_tls_cert_path }}:{{ __registry_tls_cert_path }}"
+      - "{{ registry_tls_key_path }}:{{ __registry_tls_key_path }}"
+      - "{{ registry_htpasswd_path }}:{{ __registry_htpasswd_path }}"
     ports:
       - "{{ registry_port }}:443"
     env:
+      # those variables cannot be changed by the user
       REGISTRY_HTTP_ADDR: "0.0.0.0:443"
-  when: not result.exists
-
-- name: Start container
-  docker_container:
-    name: registry
-    state: started
-  when: result.exists
+      REGISTRY_HTTP_TLS_CERTIFICATE: "{{ __registry_tls_cert_path }}"
+      REGISTRY_HTTP_TLS_KEY: "{{ __registry_tls_key_path }}"
+      REGISTRY_AUTH_HTPASSWD_PATH: "{{ __registry_htpasswd_path }}"
+      REGISTRY_AUTH_HTPASSWD_REALM: basic-realm
 
