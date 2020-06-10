@@ -1,5 +1,5 @@
 - hosts: nginx.luxor.cloud
-  vars_files: vars/vault.yml
+  vars_files: vars/vault.yaml
   pre_tasks:
   - name: install cert
     copy:

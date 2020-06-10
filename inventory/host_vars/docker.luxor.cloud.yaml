@@ -1,0 +1,8 @@
+registry_version: 2
+registry_port: 443
+registry_tls_key: "{{ cloudflare_origin_key }}"
+registry_tls_cert: "{{ cloudflare_origin_cert }}"
+# registry_config:
+registry_htpasswd_users:
+  - name: test
+    password: test
