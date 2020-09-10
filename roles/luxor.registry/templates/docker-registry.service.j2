@@ -1,0 +1,27 @@
+[Unit]
+Description=Docker registry server
+Requires=docker.service
+After=network.target docker.service
+
+[Service]
+RestartSec=10
+Restart=always
+
+ExecStartPre=-/usr/bin/docker rm -f docker-registry
+
+ExecStart=/usr/bin/docker run --rm \
+  --name docker-registry \
+  -v {{ registry_named_volume }}:/var/lib/registry \
+  -v {{ __registry_config_file_path }}:/etc/docker/registry/config.yml \
+  -v {{ registry_tls_cert_path }}:{{ __registry_tls_cert_path }} \
+  -v {{ registry_htpasswd_path }}:{{ __registry_htpasswd_path }} \
+  -p {{ registry_port }}:443 \
+  --env REGISTRY_HTTP_ADDR=0.0.0.0:443 \
+  --env REGISTRY_HTTP_TLS_CERTIFICATE={{ __registry_tls_cert_path }} \
+  --env REGISTRY_HTTP_TLS_KEY={{ __registry_tls_key_path }} \
+  --env REGISTRY_AUTH_HTPASSWD_PATH={{ __registry_htpasswd_path }} \
+  --env REGISTRY_AUTH_HTPASSWD_REALM=basic-realm \
+
+[Install]
+WantedBy=multi-user.target
+

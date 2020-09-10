@@ -6,26 +6,20 @@
 - name: Install pip deps
   pip:
     name: 
-      - docker 
       - passlib
       - bcrypt
 
-- name: "Get infos on container registry"
-  docker_container_info:
-    name: registry
-  register: result
+- name: Copy service file
+  template:
+    src: docker-registry.service.j2
+    dest: /etc/systemd/system/docker-registry.service
 
-- name: Stop container
-  docker_container: 
-    name: registry
+- name: Ensure docker-registry is stopped
+  systemd:
+    enabled: no
     state: stopped
-  when: result.exists
-
-- name: Remove container
-  docker_container: 
-    name: registry
-    state: absent
-  when: result.exists
+    daemon_reload: yes
+    name: docker-registry.service
 
 - name: "Remove {{ registry_htpasswd_path }}"
   file:
@@ -60,24 +54,9 @@
   copy: content="{{ __registry_default_config | to_nice_yaml }}" dest={{ __registry_config_file_path }}
   when: registry_config is not defined
 
-- name: Create registry container
-  docker_container:
-    name: registry
+- name: Start Docker registry
+  systemd:
+    enabled: yes
     state: started
-    image: "registry:{{ registry_version }}"
-    volumes:
-      - "{{ registry_named_volume }}:/var/lib/registry"
-      - "{{ __registry_config_file_path }}:/etc/docker/registry/config.yml"
-      - "{{ registry_tls_cert_path }}:{{ __registry_tls_cert_path }}"
-      - "{{ registry_tls_key_path }}:{{ __registry_tls_key_path }}"
-      - "{{ registry_htpasswd_path }}:{{ __registry_htpasswd_path }}"
-    ports:
-      - "{{ registry_port }}:443"
-    env:
-      # those variables cannot be changed by the user
-      REGISTRY_HTTP_ADDR: "0.0.0.0:443"
-      REGISTRY_HTTP_TLS_CERTIFICATE: "{{ __registry_tls_cert_path }}"
-      REGISTRY_HTTP_TLS_KEY: "{{ __registry_tls_key_path }}"
-      REGISTRY_AUTH_HTPASSWD_PATH: "{{ __registry_htpasswd_path }}"
-      REGISTRY_AUTH_HTPASSWD_REALM: basic-realm
-
+    daemon_reload: yes
+    name: docker-registry.service
