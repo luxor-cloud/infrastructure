@@ -1,9 +1,10 @@
 registry_version: 2
+registry_config_file_path: /etc/docker/registry/config.yml
 registry_named_volume: registry_data
 registry_port: 443
-registry_htpasswd_path: "{{ __registry_config_dir_path }}/.htpasswd"
-registry_tls_cert_path: "{{ __registry_config_dir_path }}/cert.crt"
-registry_tls_key_path: "{{ __registry_config_dir_path }}/private.key"
+registry_htpasswd_path: /etc/docker/registry/.htpasswd
+registry_tls_cert_path: /etc/docker/registry/cert.crt
+registry_tls_key_path: /etc/docker/registry/private.key
 registry_htpasswd_users:
   - name: admin
     password: admin

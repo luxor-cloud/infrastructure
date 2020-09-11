@@ -1,0 +1,15 @@
+---
+platforms:
+  - name: registry
+    server_type: cpx11
+    image: debian-10
+provisioner:
+  name: ansible
+  playbooks:
+    prepare: prepare.yml
+driver:
+  name: hetznercloud
+dependency:
+  name: galaxy
+verifier:
+  name: ansible
