@@ -35,9 +35,6 @@
     crypt_scheme: bcrypt
   loop: "{{ registry_htpasswd_users }}"
 
-- name: "Ensures  {{ __registry_config_dir_path  }} exists"
-  file: path="{{ __registry_config_dir_path }}" state=directory
-
 - name: Copy TLS certificate
   copy: content="{{ registry_tls_cert }}" dest={{ registry_tls_cert_path }}
   when: registry_tls_cert is defined
@@ -47,11 +44,11 @@
   when: registry_tls_key is defined
 
 - name: Write configuration
-  copy: content="{{ registry_config | to_nice_yaml }}" dest={{ __registry_config_file_path }}
+  copy: content="{{ registry_config | to_nice_yaml }}" dest={{ registry_config_file_path }}
   when: registry_config is defined
 
 - name: Using default config
-  copy: content="{{ __registry_default_config | to_nice_yaml }}" dest={{ __registry_config_file_path }}
+  copy: content="{{ __registry_default_config | to_nice_yaml }}" dest={{ registry_config_file_path }}
   when: registry_config is not defined
 
 - name: Start Docker registry

@@ -2,6 +2,7 @@
 - name: Converge
   hosts: all
   vars:
+    ansible_python_interpreter: /usr/bin/python3
     ansible_user: root
     registry_tls_cert_path: /etc/ssl/certs/ssl-cert-snakeoil.pem
     registry_tls_key_path: /etc/ssl/private/ssl-cert-snakeoil.key
