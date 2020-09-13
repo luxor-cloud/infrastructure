@@ -5,3 +5,13 @@ registry_tls_cert: "{{ cloudflare_origin_cert }}"
 registry_htpasswd_users:
   - name: lbwl-deploy
     password: "{{ registry_lbwl_user_passwd }}"
+registry_config:
+  version: 0.1
+  storage:
+    s3:
+      accesskey: '{{ s3_access_key }}'
+      secretkey: '{{ s3_secret_key }}'
+      region: ams3
+      bucket: luxor
+      rootdirectory: /docker-registry
+      regionendpoint: https://luxor.ams3.digitaloceanspaces.com 
