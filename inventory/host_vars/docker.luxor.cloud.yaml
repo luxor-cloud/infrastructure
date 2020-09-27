@@ -1,7 +1,17 @@
-registry_version: 2
+registry_version: 2.7.1
 registry_port: 443
 registry_tls_key: "{{ cloudflare_origin_key }}"
 registry_tls_cert: "{{ cloudflare_origin_cert }}"
 registry_htpasswd_users:
   - name: lbwl-deploy
     password: "{{ registry_lbwl_user_passwd }}"
+registry_config:
+  version: 0.1
+  storage:
+    s3:
+      accesskey: '{{ do_access_key }}'
+      secretkey: '{{ do_secret }}'
+      region: ams3
+      bucket: luxor
+      rootdirectory: /docker-registry
+      regionendpoint: ams3.digitaloceanspaces.com 
