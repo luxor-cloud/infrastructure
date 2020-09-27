@@ -1,4 +1,4 @@
-registry_version: 2
+registry_version: 2.7.1
 registry_port: 443
 registry_tls_key: "{{ cloudflare_origin_key }}"
 registry_tls_cert: "{{ cloudflare_origin_cert }}"
@@ -9,9 +9,9 @@ registry_config:
   version: 0.1
   storage:
     s3:
-      accesskey: '{{ s3_access_key }}'
-      secretkey: '{{ s3_secret_key }}'
+      accesskey: '{{ do_access_key }}'
+      secretkey: '{{ do_secret }}'
       region: ams3
       bucket: luxor
       rootdirectory: /docker-registry
-      regionendpoint: https://luxor.ams3.digitaloceanspaces.com 
+      regionendpoint: ams3.digitaloceanspaces.com 
