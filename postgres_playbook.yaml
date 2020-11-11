@@ -1,9 +1,0 @@
-- hosts: postgres.luxor.cloud
-  pre_tasks:
-  - name: install python3-psycopg2
-    apt:
-      name: python-psycopg2
-      update_cache: true
-  vars_files: vars/vault.yml
-  roles:
-  - role: geerlingguy.postrgresql
